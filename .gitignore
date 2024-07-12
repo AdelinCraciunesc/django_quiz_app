@@ -1,0 +1,35 @@
+# Ignore Python virtual environment directories
+*.venv/
+venv/
+env/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore IDE-specific files and directories
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore compiled files
+*.compiled
+
+# Ignore log files
+*.log
+
+# Ignore dependency manifest files
+package-lock.json
+yarn.lock
+
+# Ignore build output directories
+dist/
+build/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Migrations
+migrations/
