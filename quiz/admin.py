@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User
+from .models import User, Quiz, Question, Answer
 
 class CustomUserAdmin(UserAdmin):
     add_form = UserCreationForm
@@ -22,4 +22,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ['email']
     ordering = ['email']
 
+# Register Models so we can use them in the admin panel on the app
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Quiz)
+admin.site.register(Question)
+admin.site.register(Answer)
