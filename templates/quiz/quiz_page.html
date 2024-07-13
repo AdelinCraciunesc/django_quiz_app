@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h1>Quiz Page</h1>
+    <p> {{ quiz.name }} </p>
+    <p> {{ quiz.description }} </p>
+    <div>
+        {% for question in questions_and_answers %}
+            <p> {{ question.question_text }} </p>
+            <form method="POST" action="{% url 'question_delete' question.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+            <a href="{% url 'question_edit' question.id %}" class="btn">Edit</a>
+            {% for answer in question.answer_set.all %}
+                <p> {{ answer.answer_text }} </p>
+            {% endfor %}
+        {% endfor %}    
+    </div>
+    <a href="{% url 'question_add' quiz.id %}" class="btn btn-primary">Add Question</a>
+</div>
+{% endblock %}
+

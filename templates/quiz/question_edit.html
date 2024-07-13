@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h1> Edit Question </h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ question_form.as_p }}
+        {{ answer_forms.management_form }}
+        {% for form in answer_forms %}
+            {{ form.as_p }}
+        {% endfor %}
+        <button type="submit">Edit</button>
+    </form>
+</div>
+{% endblock %}/
