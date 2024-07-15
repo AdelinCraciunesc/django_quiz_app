@@ -156,3 +156,33 @@ def question_edit(request, question_id):
         answer_forms = inlineformset_factory(Question, Answer, fields=('answer_text', 'is_correct'), extra=4, can_delete=False, max_num=4)
         answer_forms = answer_forms(instance=question, queryset=Answer.objects.filter(question=question))
     return render(request, 'quiz/question_edit.html', {'question_form': question_form, 'answer_forms': answer_forms})
+
+def take_quiz(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    questions = Question.objects.filter(quiz=quiz)
+    questions_and_answers = {}
+    for question in questions:
+        answers = Answer.objects.filter(question=question)
+        questions_and_answers[question] = answers
+    
+    if request.method == 'POST':
+        score = 0
+        questions_correct = {}
+        questions_incorrect = {}
+        for key, value in request.POST.items():
+            if key.startswith('answer_'):
+                question_id = key.split('_')[1]
+                selected_option_id = value
+                question = Question.objects.get(id=question_id)
+                option = Answer.objects.get(id=selected_option_id)
+                if option.is_correct:
+                    score += 1
+                    questions_correct[question] = option
+                else:
+                    questions_incorrect[question] = option
+        return render(request, 'quiz/quiz_result.html', 
+                      {'score': score, 
+                       'questions_correct': questions_correct, 
+                       'questions_incorrect': questions_incorrect})
+    
+    return render(request, 'quiz/take_quiz.html', {'quiz': quiz, 'questions_and_answers': questions_and_answers})

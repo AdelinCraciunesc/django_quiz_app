@@ -10,7 +10,7 @@
     <p> {{ user.email }} </p>
     {% if quizzes %}
         {% for quiz in quizzes %}
-            <p> {{ quiz.name }} </p>
+            <a href="{% url 'take_quiz' quiz.id %}"> {{ quiz.name }} </a>
         {% endfor %}
     {% else %}
         <p> No Quizzes </p>

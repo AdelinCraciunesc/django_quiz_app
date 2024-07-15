@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<script src="{% static 'javascript/quiz.js' %}"></script>
+<div>
+    <h1> Quiz </h1>
+    <p> {{ quiz.name }} </p>
+    <p> {{ quiz.description }} </p>
+
+    <div>
+        <form method="POST" action="{% url 'take_quiz' quiz.id %}" id="quiz-form">
+            {% csrf_token %}
+            {% for question in questions_and_answers %}
+                <p> {{ question.question_text }} </p>
+                {% for answer in question.answer_set.all %}
+                    <input type="checkbox" name="answer_{{ question.id }}" id="answer_{{ answer.id }}" value="{{ answer.id }}"> {{ answer.answer_text }} </br>
+                {% endfor %}
+            {% endfor %}
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+<div>
+    <p> Time left: </p>
+    <span id="timer">00:00</span>
+</div>
+
+{% endblock %}
