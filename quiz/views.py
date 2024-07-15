@@ -167,21 +167,31 @@ def take_quiz(request, quiz_id):
     
     if request.method == 'POST':
         score = 0
+        total_score = questions.count()
         questions_correct = {}
         questions_incorrect = {}
+        answered_questions = set()
+
         for key, value in request.POST.items():
             if key.startswith('answer_'):
-                question_id = key.split('_')[1]
+                question_id = key.split('_')[1] 
                 selected_option_id = value
                 question = Question.objects.get(id=question_id)
                 option = Answer.objects.get(id=selected_option_id)
+                answered_questions.add(question_id)
+
                 if option.is_correct:
                     score += 1
                     questions_correct[question] = option
                 else:
                     questions_incorrect[question] = option
+        for question in questions:
+            if str(question.id) not in answered_questions:
+                questions_incorrect[question] = None
+
         return render(request, 'quiz/quiz_result.html', 
-                      {'score': score, 
+                      {'score': score,
+                       'total_score': total_score,
                        'questions_correct': questions_correct, 
                        'questions_incorrect': questions_incorrect})
     
