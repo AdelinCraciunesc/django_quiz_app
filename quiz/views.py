@@ -189,6 +189,10 @@ def take_quiz(request, quiz_id):
             if str(question.id) not in answered_questions:
                 questions_incorrect[question] = None
 
+        user = request.user
+        user_result = User_Result.objects.create(user=user, quiz=quiz, score=score)
+        user_result.save()
+
         return render(request, 'quiz/quiz_result.html', 
                       {'score': score,
                        'total_score': total_score,
