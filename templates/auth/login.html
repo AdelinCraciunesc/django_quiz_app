@@ -1,28 +1,62 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Login</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-    </head>
-    <body>
-        <div id="login-container">
-            <h1>Login</h1>
-            <form method="post" action="{% url 'login' %}">
+
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="slider"></div>
+        <div class="btn">
+            <button class="login">Login</button>
+            <button class="register">Register</button>
+        </div>
+        <div class="form-section">
+            <!-- login form -->
+            <form method="post" action="{% url 'login' %}" class="login-box">
                 {% csrf_token %}
                 <div>
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" class="email element" placeholder="Enter your email...">
                 </div>
                 <div>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" class="password element"
+                        placeholder="Enter your password...">
                 </div>
-                <input type="submit" value="Login">
+                <input type="submit" class="submit_button" value="Login">
+            </form>
+            <!-- register form -->
+            <form method="post" action="{% url 'register' %}" class="register-box">
+                {% csrf_token %}
+                <div>
+                    <input type="email" name="email" id="email" class="email element" placeholder="Enter your email...">
+                </div>
+                <div>
+                    <input type="text" name="first_name" id="first_name" class="name element"
+                        placeholder="Enter your first name...">
+                </div>
+                <div>
+                    <input type="text" name="last_name" id="last_name" class="name element"
+                        placeholder="Enter your last name...">
+                </div>
+                <div>
+                    <input type="password" name="password" id="password" class="password element"
+                        placeholder="Enter your password...">
+                </div>
+                <div>
+                    <input type="password" name="password2" id="password2" class="password element"
+                        placeholder="Confirm your password...">
+                </div>
+                <input type="submit" class="submit_button" value="Register">
             </form>
         </div>
-    </body>
-    <p><a href="{% url 'register' %}">Register</a></p>
-</html>
+    </div>
+    <script src="{% static 'javascript/auth.js' %}"></script>
+</body>
 
+</html>
