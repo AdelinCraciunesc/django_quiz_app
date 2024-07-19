@@ -48,7 +48,7 @@ def register(request):
         else:
             messages.info(request, 'Password not matching')
             return redirect('register')
-    return render(request, 'auth/register.html')
+    # return render(request, 'auth/register.html')
 
 # quiz
 def your_quizzes(request):
