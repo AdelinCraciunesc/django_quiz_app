@@ -1,19 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
-    .container{
-        margin-top: 10px;
-    }
-</style>
 <div class="container">
-    <p> Hello, World </p>
-    <p> {{ user.email }} </p>
-    {% if quizzes %}
-        {% for quiz in quizzes %}
-            <a href="{% url 'take_quiz' quiz.id %}"> {{ quiz.name }} </a>
-        {% endfor %}
+    <!-- {% if user.first_name %}
+        <p> Hello, {{ user.first_name }} {{ user.last_name }} </p>
     {% else %}
-        <p> No Quizzes </p>
+        <p> Hello, {{ user.email }} </p>
+    {% endif %} -->
+    <h1>Here is a list with all quizzes</h1>
+    {% if quizzes %}
+    <div>
+        {% for quiz in quizzes %}
+        <div class="quiz-container card">
+            <div class="card-body">
+                <a href="{% url 'take_quiz' quiz.id %}">{{ quiz.name }}</a>
+                <p class="card-text"> Quiz description: {{ quiz.description }}</p>
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between pb-0">
+                <p class="card-text"> Number of questions: {{ quiz.question_set.count }} </p>
+                {% if quiz.time_limit %}
+                <p class="card-text"> Time limit: {{ quiz.time_limit }} minutes</p>
+                {% else %}
+                <p class="card-text"> Time limit: 5 minutes </p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p> No Quizzes </p>
     {% endif %}
 </div>
 {% endblock %}

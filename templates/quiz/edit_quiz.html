@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-    <h1> Edit Quiz </h1>
-    <form method="POST">
+<div class="container">
+    <h1 class="form-title"> Edit Quiz </h1>
+    <form method="POST" class="form-container">
         {% csrf_token %}
         {{ quiz_form.as_p }}
         <button type="submit">Edit</button>
