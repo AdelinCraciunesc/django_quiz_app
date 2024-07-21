@@ -1,23 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-    <h1>Quiz Page</h1>
-    <p> {{ quiz.name }} </p>
-    <p> {{ quiz.description }} </p>
+<div class="container">
+    <h1>Quiz Page here you can edit the questions</h1>
+    <p>Quiz Name: {{ quiz.name }}</p>
+    <p>Quiz Description: {{ quiz.description }} </p>
     <div>
         {% for question in questions_and_answers %}
-            <p> {{ question.question_text }} </p>
-            <form method="POST" action="{% url 'question_delete' question.id %}">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
-            <a href="{% url 'question_edit' question.id %}" class="btn">Edit</a>
-            {% for answer in question.answer_set.all %}
-                <p> {{ answer.answer_text }} </p>
-            {% endfor %}
-        {% endfor %}    
+        <div class="quiz">
+            <button class="quiz-title btn btn-primary" data-toggle="collapse" data-target="#answer_{{ question.id }}">{{ question.question_text }}</button>
+            <div class="quiz-actions">
+                <a href="{% url 'question_edit' question.id %}" class="btn btn-primary edit">
+                    <i class="bi bi-pen-fill"></i>
+                </a>
+                <form method="POST" action="{% url 'question_delete' question.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="answers collapse" id="answer_{{ question.id }}">
+            <div class="card card-body mb-3 pb-0">
+                {% for answer in question.answer_set.all %}
+                    <p> {{ answer.answer_text }} </p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
     </div>
     <a href="{% url 'question_add' quiz.id %}" class="btn btn-primary">Add Question</a>
 </div>
 {% endblock %}
-
