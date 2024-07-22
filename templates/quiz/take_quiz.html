@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<script src="{% static 'javascript/quiz.js' %}"></script>
-<div>
-    <h1> Quiz </h1>
-    <p> {{ quiz.name }} </p>
-    <p> {{ quiz.description }} </p>
+<!-- <script src="{% static 'javascript/quiz.js' %}"></script> -->
+<div class="container">
+    <h1> {{ quiz.name }} </h1>
+    <!-- <p> {{ quiz.description }} </p> -->
     <div>
-        <p> Time left: </p>
-        <span id="timer">00:00</span>
+        <p> Time left: <span id="timer">00:00</span></p>
     </div>
-    <div>
+    <div id="quiz-container">
         <form method="POST" action="{% url 'take_quiz' quiz.id %}" id="quiz-form">
             {% csrf_token %}
             {% for question in questions_and_answers %}
-                <p> {{ question.question_text }} </p>
+            <div class="question-container mb-3">
+                <h4> {{ question.question_text }} </h4>
                 {% for answer in question.answer_set.all %}
-                    <input type="checkbox" name="answer_{{ question.id }}" id="answer_{{ answer.id }}" value="{{ answer.id }}"> {{ answer.answer_text }} </br>
+                <div class="form form-group form-check">
+                    <input type="checkbox" name="answer_{{ question.id }}" id="answer_{{ answer.id }}"
+                        value="{{ answer.id }}" class="form-check-input">
+                    <label for="answer_{{ answer.id }}" class="form-check-label">{{ answer.answer_text }}</label>
+                </div>
                 {% endfor %}
+            </div>
             {% endfor %}
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
