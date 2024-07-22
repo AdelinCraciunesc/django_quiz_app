@@ -7,10 +7,11 @@
         <p> Hello, {{ user.email }} </p>
     {% endif %} -->
     <h1>Here is a list with all quizzes</h1>
+    <p>Click on the quiz name to take it</p>
     {% if quizzes %}
     <div>
         {% for quiz in quizzes %}
-        <div class="quiz-container card">
+        <div class="quiz-container card mb-3">
             <div class="card-body">
                 <a href="{% url 'take_quiz' quiz.id %}">{{ quiz.name }}</a>
                 <p class="card-text"> Quiz description: {{ quiz.description }}</p>
