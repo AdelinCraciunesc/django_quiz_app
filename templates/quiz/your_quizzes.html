@@ -11,8 +11,8 @@
         </div>
 
         <div class="quiz-actions">
-            <a href="{% url 'edit_quiz' quiz.id %}" class="btn btn-primary edit">
-                <i class="bi bi-pen-fill"></i>
+            <a href="{% url 'edit_quiz' quiz.id %}" class="btn btn-warning edit">
+                <i class="bi bi-pen-fill text-white"></i>
             </a>
             <form method="POST" action="{% url 'delete_quiz' quiz.id %}">
                 {% csrf_token %}
