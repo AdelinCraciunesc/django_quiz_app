@@ -7,10 +7,12 @@
     <div>
         {% for question in questions_and_answers %}
         <div class="quiz">
-            <button class="quiz-title btn btn-primary" data-toggle="collapse" data-target="#answer_{{ question.id }}">{{ question.question_text }}</button>
+            <button class="quiz-title btn btn-primary" data-toggle="collapse" data-target="#answer_{{ question.id }}">
+                {{ question.question_text }} <icon class="bi bi-chevron-down"></icon>
+            </button>
             <div class="quiz-actions">
-                <a href="{% url 'question_edit' question.id %}" class="btn btn-primary edit">
-                    <i class="bi bi-pen-fill"></i>
+                <a href="{% url 'question_edit' question.id %}" class="btn btn-warning edit">
+                    <i class="bi bi-pen-fill text-white"></i>
                 </a>
                 <form method="POST" action="{% url 'question_delete' question.id %}">
                     {% csrf_token %}
@@ -23,7 +25,7 @@
         <div class="answers collapse" id="answer_{{ question.id }}">
             <div class="card card-body mb-3 pb-0">
                 {% for answer in question.answer_set.all %}
-                    <p> {{ answer.answer_text }} </p>
+                <p> {{ answer.answer_text }} </p>
                 {% endfor %}
             </div>
         </div>
