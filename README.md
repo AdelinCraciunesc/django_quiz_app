@@ -90,7 +90,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you have any questions or suggestions, feel free to contact me:
 
 - **Email**: adelin.craciunesc21@gmail.com
-- **GitHub**: [AdelinCraciunesc]([https://github.com/yourusername](https://github.com/AdelinCraciunesc))
-- **LinkedIn**: [Adelin Crăciunesc]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/lascu-adelin-cr%C4%83ciunesc-a46a26212/))
+- **GitHub**: [AdelinCraciunesc]([https://github.com/yourusername](https://github.com/AdelinCraciunesc])
+- **LinkedIn**: [Adelin Crăciunesc]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/lascu-adelin-cr%C4%83ciunesc-a46a26212/])
 
 
