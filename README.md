@@ -17,8 +17,6 @@ A web-based application for creating, managing, and taking quizzes. Users can re
 ## Demo
 ![Quiz App Demo](assets/demo.png)
 
-You can view the live demo of the project [here](#).
-
 ## Features
 
 - User authentication (login/register)
