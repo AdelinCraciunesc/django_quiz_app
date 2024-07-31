@@ -8,13 +8,21 @@
     {% endif %} -->
     <h1>Here is a list with all quizzes</h1>
     <p>Click on the quiz name to take it</p>
+    <form method="GET" action="{% url 'home' %}">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="search" placeholder="Search...">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
     {% if quizzes %}
+    <!-- search -->
     <div>
         {% for quiz in quizzes %}
         <div class="quiz-container card mb-3">
-            <div class="card-body">
-                <a href="{% url 'take_quiz' quiz.id %}">{{ quiz.name }}</a>
-                <p class="card-text"> Quiz description: {{ quiz.description }}</p>
+            <div class="container">
+                <a href="{% url 'take_quiz' quiz.id %}" class="card-title">{{ quiz.name }}</a>
+                <badge class="badge bg-secondary text-white">{{ quiz.category.name }}</badge>
+                <p class="card-text mt-3 mb-3"> Quiz description: {{ quiz.description }}</p>
             </div>
             <div class="card-footer text-muted d-flex justify-content-between">
                 <p class="card-text"> Number of questions: {{ quiz.question_set.count }} </p>

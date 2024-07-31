@@ -11,6 +11,9 @@ from .forms import *
 def home(request):
     user = request.user
     all_quiz = Quiz.objects.all()
+    search_query = request.GET.get('search')
+    if search_query:
+        all_quiz = Quiz.objects.filter(name__icontains=search_query)
     return render(request, 'home.html', {'user': user, 'quizzes': all_quiz})
 
 def login(request):
