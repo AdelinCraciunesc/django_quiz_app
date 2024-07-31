@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.forms import inlineformset_factory
 from .models import *
 from .forms import *
+from django.core.paginator import Paginator
 # Create your views here.
 @login_required(login_url='login')
 def home(request):
@@ -14,7 +15,10 @@ def home(request):
     search_query = request.GET.get('search')
     if search_query:
         all_quiz = Quiz.objects.filter(name__icontains=search_query)
-    return render(request, 'home.html', {'user': user, 'quizzes': all_quiz})
+    paginator = Paginator(all_quiz, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'home.html', {'user': user, 'quizzes': page_obj})
 
 def login(request):
     if request.method == 'POST':
