@@ -15,10 +15,11 @@ class UserChangeForm(UserChangeForm):
 class QuizForm(forms.ModelForm):
     class Meta:
         model = Quiz
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'category')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class QuestionForm(forms.ModelForm):
