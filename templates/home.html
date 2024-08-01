@@ -6,26 +6,43 @@
     {% else %}
         <p> Hello, {{ user.email }} </p>
     {% endif %} -->
-    <h1>Here is a list with all quizzes</h1>
+    {% if title_query or selected_category %}
+    <h2>Search results{% if title_query %} for title "{{ title_query }}"{% endif %}{% if selected_category %} in category "{{ selected_category.name }}"{% endif %}:</h2>
+    {% else %}
+    <h2>All Quizzes</h2>
+    {% endif %}
     <p>Click on the quiz name to take it</p>
     <form method="GET" action="{% url 'home' %}">
         <div class="input-group mb-3">
             <input type="text" class="form-control" name="search" placeholder="Search...">
+            <select class="form-select text-center" name="category">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category_query == category.id|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
     {% if quizzes %}
-    <!-- search -->
     <div>
         {% for quiz in quizzes %}
         <div class="quiz-container card mb-3">
             <div class="container">
                 <a href="{% url 'take_quiz' quiz.id %}" class="card-title">{{ quiz.name }}</a>
                 <badge class="badge bg-secondary text-white">{{ quiz.category.name }}</badge>
-                <p class="card-text mt-3 mb-3"> Quiz description: {{ quiz.description }}</p>
+                <p class="card-text mt-3 mb-3"> Quiz description: {{ quiz.description }}</p>  
             </div>
             <div class="card-footer text-muted d-flex justify-content-between">
                 <p class="card-text"> Number of questions: {{ quiz.question_set.count }} </p>
+                {% if quiz.completed %}
+                <div class="d-flex">
+                    <p class="card-text"> User score: {{ quiz.user_score }} / {{ quiz.question_set.count }}</p>
+                    <span class="checkmark">&#10003;</span>
+                </div>
+                {% endif %}
                 {% if quiz.time_limit %}
                 <p class="card-text"> Time limit: {{ quiz.time_limit }} minutes</p>
                 {% else %}
@@ -39,7 +56,7 @@
     <p> No Quizzes </p>
     {% endif %}
     <!-- Pagination -->
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation" class="d-flex justify-content-center">
         <ul class="pagination">
             {% if quizzes.has_previous %}
             <li class="page-item">

@@ -7,18 +7,39 @@ from django.forms import inlineformset_factory
 from .models import *
 from .forms import *
 from django.core.paginator import Paginator
-# Create your views here.
+from django.db.models import OuterRef, Exists, Subquery, IntegerField, Count
+# get quizzes
+def get_quizzes(user):
+    user_results = User_Result.objects.filter(user=user, quiz=OuterRef('pk')).values('total_score')[:1]
+    quizzes = Quiz.objects.annotate(question_count=Count('question'),
+                                    completed=Exists(user_results), 
+                                    user_score=Subquery(user_results, output_field=IntegerField())).filter(question_count__gt=0).order_by('name')
+    return quizzes
 @login_required(login_url='login')
 def home(request):
     user = request.user
-    all_quiz = Quiz.objects.all()
+    all_quiz = get_quizzes(user)
+    categories = Category.objects.all()
     search_query = request.GET.get('search')
+    category_query = request.GET.get('category')
     if search_query:
-        all_quiz = Quiz.objects.filter(name__icontains=search_query)
+        all_quiz = all_quiz.filter(name__icontains=search_query)
+    selected_category = None
+    if category_query:
+        selected_category = Category.objects.get(id=category_query)
+    if category_query:
+        all_quiz = all_quiz.filter(category__id=category_query)
+
+    if category_query and search_query:
+        all_quiz = all_quiz.filter(name__icontains=search_query, category__id=category_query)
+
     paginator = Paginator(all_quiz, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'home.html', {'user': user, 'quizzes': page_obj})
+    return render(request, 'home.html', {'user': user, 'quizzes': page_obj, 'categories': categories, 
+                                         'category_query': category_query, 
+                                         'title_query': search_query,
+                                         'selected_category': selected_category})
 
 def login(request):
     if request.method == 'POST':
@@ -197,7 +218,7 @@ def take_quiz(request, quiz_id):
                 questions_incorrect[question] = None
 
         user = request.user
-        user_result = User_Result.objects.create(user=user, quiz=quiz, score=score)
+        user_result = User_Result.objects.create(user=user, quiz=quiz, total_score=score)
         user_result.save()
 
         return render(request, 'quiz/quiz_result.html', 
