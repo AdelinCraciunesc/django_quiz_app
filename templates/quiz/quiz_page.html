@@ -4,6 +4,7 @@
     <h1>Quiz Page here you can edit the questions</h1>
     <p>Quiz Name: {{ quiz.name }}</p>
     <p>Quiz Description: {{ quiz.description }} </p>
+    {% if questions_and_answers %}
     <div class="quiz-container">
         {% for question in questions_and_answers %}
         <div class="quiz">
@@ -25,16 +26,19 @@
         <div class="answers collapse" id="answer_{{ question.id }}">
             <div class="card card-body mb-3 pb-0">
                 {% for answer in question.answer_set.all %}
-                    {% if answer.is_correct %}
-                    <p class="text-success"> {{ answer.answer_text }} </p>
-                    {% else %}
-                    <p class="text-black"> {{ answer.answer_text }} </p>
-                    {% endif %}
+                {% if answer.is_correct %}
+                <p class="text-success"> {{ answer.answer_text }} </p>
+                {% else %}
+                <p class="text-black"> {{ answer.answer_text }} </p>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <p>No Questions added yet, add some questions below</p>
+    {% endif %}
     <a href="{% url 'question_add' quiz.id %}" class="btn btn-primary mb-3">Add Question</a>
 </div>
 {% endblock %}
